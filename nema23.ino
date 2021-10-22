@@ -10,6 +10,7 @@ int _pbR = 0;
 
 void setup() {
   //Output pin
+  Serial.begin(9600);
   pinMode(step_pin, OUTPUT);
   pinMode(dir_pin, OUTPUT);
   pinMode(en_pin, OUTPUT);
@@ -19,7 +20,8 @@ void setup() {
   pinMode(pushButton2_pin, INPUT);
 
   //set Enable output to LOW
-  digitalWrite(en_pin, LOW);
+  //digitalWrite(en_pin, HIGH);
+  
 }
 
 void loop() {
@@ -27,14 +29,29 @@ void loop() {
   _pbL = digitalRead(pushButton1_pin);
   _pbR = digitalRead(pushButton2_pin);
   
- 
+  Serial.println("PBL = " + String(_pbL) + " PBR = " + String(_pbR));
+  
+  
+  
+ /*
   setPositionDirection(_pbL, _pbR);
   delay(1000);
 
   setCurrentPostion(_pbL, _pbR);
   delay(1000);
-  
-  
+  */
+  if(_pbL == 1)
+  {
+    digitalWrite(dir_pin, LOW);
+    setStep();
+  }
+  else if(_pbR == 1)
+  {
+    digitalWrite(dir_pin, HIGH);
+    setStep();
+  } 
+
+  delay(100);
 }
 
 /*because we use 200 steps of servo motor,
@@ -47,9 +64,9 @@ void setStep()
   for(int i=0; i<50; i++)
   {
     digitalWrite(step_pin, HIGH);
-    delay(4);
+    delay(1);
     digitalWrite(step_pin, LOW);
-    delay(4);   
+    delay(1);   
   }   
 }
 
